@@ -9,7 +9,7 @@ import jakarta.persistence.Persistence;
  * De tipo Singleton con Thread Safe y Lazy Initialization.
  */
 public class JPAUtil {
-    public static final String UNIDAD_PERSISTENCIA = "peliculas";
+    public static final String UNIDAD_PERSISTENCIA = "seriesDB";
 
     private static volatile EntityManagerFactory emFactory;
 
