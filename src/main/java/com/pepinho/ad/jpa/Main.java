@@ -1,5 +1,6 @@
 package com.pepinho.ad.jpa;
 
+import com.pepinho.ad.jpa.dto.PeliculaDTO;
 import com.pepinho.ad.jpa.peliculas.Ocupacion;
 import com.pepinho.ad.jpa.peliculas.Pais;
 import com.pepinho.ad.jpa.peliculas.Pelicula;
@@ -202,6 +203,9 @@ public class Main {
 
         // 2. Muestra las películas que tienen algún personaje (IS EMPTY)
         // o no tienen personajes (IS NOT EMPTY).
+
+        /*
+
         System.out.println(SEPARADOR + "CONSULTA 2 ***********");
 
         TypedQuery<Pelicula> query2 = em.createQuery("SELECT p FROM Pelicula p" +
@@ -260,5 +264,72 @@ public class Main {
         for (Pelicula p: resultadoQuery5){
             System.out.println(p);
         }
+
+        // 6. Listar el número de películas de acuerdo con el nombre propocionado:
+        // (Crea una clase PeliculaDTO con los campos idPelicula, castelan, orixinal,
+        // anoFin, tenPoster (booleano) y realiza la consulta)
+
+        // As clases DTO úsanse para obter certos datos dunha entidade e non toda a entidade enteira
+
+        System.out.println(SEPARADOR + "CONSULTA 6 ***********");
+        System.out.println("Introduce o nome da película que queiras buscar:");
+        String nombre = sc.nextLine();
+
+        TypedQuery<PeliculaDTO> query6 = em.createQuery(
+                "SELECT new com.pepinho.ad.jpa.dto.PeliculaDTO(p.idPelicula, p.castelan, p.orixinal, p.anoFin, " +
+                        "CASE WHEN p.poster IS NOT NULL THEN TRUE ELSE FALSE END) " +
+                        "FROM Pelicula p " +
+                        "WHERE p.castelan LIKE :nombre " +
+                        "ORDER BY p.anoFin DESC, p.castelan ASC",
+                PeliculaDTO.class
+        );
+        query6.setParameter("nombre", "%" + nombre + "%");
+        List<PeliculaDTO> resultadoQuery6 = query6.getResultList();
+        System.out.println("\n\nResultado Consulta 6:");
+        for (PeliculaDTO p: resultadoQuery6){
+            System.out.println(p);
+        }
+
+        */
+
+        // 7. Consulta los datos de las ocupaciones de los personajes de una película
+
+        System.out.println(SEPARADOR + "CONSULTA 7 ***********");
+
+        TypedQuery<String> query7A = em.createQuery(
+                "SELECT DISTINCT o.nombre " + // Asegúrate de que 'nombre' sea un campo de Ocupacion
+                        "FROM Ocupacion o " +
+                        "WHERE EXISTS ( " +
+                        "    SELECT pp.pelicula.id FROM PeliculaPersonaxe pp " +
+                        "    WHERE o.ocupacion = pp.ocupacion " +  // 🔹 Usa el campo correcto para la comparación
+                        "    AND pp.pelicula.id = :idPelicula " +
+                        ") " +
+                        "AND o.orde <> 0 " +
+                        "ORDER BY o.orde",
+                String.class
+        );
+        query7A.setParameter("idPelicula", 123);
+        List<String> resultadoQuery7A = query7A.getResultList();
+
+        for (String ocupacion : resultadoQuery7A) {
+            TypedQuery<String> queryPersonaxes = em.createQuery(
+                    "SELECT p.nome " +
+                            "FROM PeliculaPersonaxe pp " +
+                            "JOIN pp.personaxe p " +
+                            "WHERE pp.ocupacion = :ocupacion " +
+                            "AND pp.pelicula.id = :idPelicula",
+                    String.class
+            );
+            queryPersonaxes.setParameter("ocupacion", ocupacion);
+            queryPersonaxes.setParameter("idPelicula", 123);
+
+            List<String> resultadoQuery7Final = queryPersonaxes.getResultList();
+
+            System.out.println("Ocupación: " + ocupacion);
+            for (String nome : resultadoQuery7Final) {
+                System.out.println("  - " + nome);
+            }
+        }
+
     }
 }
