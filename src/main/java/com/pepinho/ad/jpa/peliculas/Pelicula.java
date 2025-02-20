@@ -64,6 +64,14 @@ public class Pelicula {
         this.revisado = revisado;
     }
 
+    public Pelicula(String castelan, String orixinal, Short anoFin, byte[] poster) {
+        this.castelan = castelan;
+        this.orixinal = orixinal;
+        this.anoFin = anoFin;
+        this.poster = poster;
+    }
+
+
     public Long getIdPelicula() {
         return idPelicula;
     }
