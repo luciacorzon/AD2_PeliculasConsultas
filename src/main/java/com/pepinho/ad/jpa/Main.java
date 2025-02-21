@@ -293,43 +293,40 @@ public class Main {
         */
 
         // 7. Consulta los datos de las ocupaciones de los personajes de una película
-
-        System.out.println(SEPARADOR + "CONSULTA 7 ***********");
-
-        TypedQuery<String> query7A = em.createQuery(
-                "SELECT DISTINCT o.nombre " + // Asegúrate de que 'nombre' sea un campo de Ocupacion
-                        "FROM Ocupacion o " +
-                        "WHERE EXISTS ( " +
-                        "    SELECT pp.pelicula.id FROM PeliculaPersonaxe pp " +
-                        "    WHERE o.ocupacion = pp.ocupacion " +  // 🔹 Usa el campo correcto para la comparación
-                        "    AND pp.pelicula.id = :idPelicula " +
-                        ") " +
-                        "AND o.orde <> 0 " +
-                        "ORDER BY o.orde",
-                String.class
+        TypedQuery<Ocupacion> query7 = em.createQuery(
+                "SELECT DISTINCT o FROM Pelicula p " +
+                        "JOIN p.personaxes pp " +
+                        "JOIN pp.ocupacion o " +
+                        "WHERE p.castelan = :nombrePelicula", Ocupacion.class
         );
-        query7A.setParameter("idPelicula", 123);
-        List<String> resultadoQuery7A = query7A.getResultList();
 
-        for (String ocupacion : resultadoQuery7A) {
-            TypedQuery<String> queryPersonaxes = em.createQuery(
-                    "SELECT p.nome " +
-                            "FROM PeliculaPersonaxe pp " +
-                            "JOIN pp.personaxe p " +
-                            "WHERE pp.ocupacion = :ocupacion " +
-                            "AND pp.pelicula.id = :idPelicula",
-                    String.class
-            );
-            queryPersonaxes.setParameter("ocupacion", ocupacion);
-            queryPersonaxes.setParameter("idPelicula", 123);
+        query7.setParameter("nombrePelicula", "El Dorado"); // Cambia por el nombre de la película que buscas
 
-            List<String> resultadoQuery7Final = queryPersonaxes.getResultList();
+        List<Ocupacion> resultadosQuery7 = query7.getResultList();
 
-            System.out.println("Ocupación: " + ocupacion);
-            for (String nome : resultadoQuery7Final) {
-                System.out.println("  - " + nome);
-            }
+// Mostrar resultados
+        for (Ocupacion ocupacion : resultadosQuery7) {
+            System.out.println(ocupacion);
         }
 
+
+        TypedQuery<Object[]> query = em.createQuery(
+                "SELECT o.ocupacion, p.castelan FROM Pelicula p " +
+                        "JOIN p.personaxes pp " +
+                        "JOIN pp.ocupacion o " +
+                        "JOIN pp.personaxe pe " +
+                        "WHERE p.idPelicula = :idPelicula " +
+                        "AND o.orde <> 0 " +
+                        "ORDER BY o.orde", Object[].class
+        );
+
+        query.setParameter("idPelicula", 123);
+
+        List<Object[]> resultados = query.getResultList();
+
+// Mostrar resultados
+        for (Object[] resultado : resultados) {
+            System.out.println("Ocupación: " + resultado[0] + " - Personaje: " + resultado[1]);
+        }
     }
 }
