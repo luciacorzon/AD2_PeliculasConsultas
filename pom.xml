@@ -64,6 +64,11 @@
             <artifactId>hibernate-community-dialects</artifactId>
             <version>6.6.5.Final</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>11.0.0-M5</version>
+        </dependency>
 
 
 

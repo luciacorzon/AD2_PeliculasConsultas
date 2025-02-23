@@ -97,7 +97,7 @@ public class Main {
         }
 
         // g) Obtener todas las películas que tienen un personaje interpretado por un actor
-        // con un nombre específico (por ejemplo, “Tom Hanks”).
+        // con un nombre específico (por ejemplo, “Hanks, Tom”).
         TypedQuery<Pelicula> queryG = em.createQuery(
                 "SELECT DISTINCT p FROM Pelicula p " +
                         "JOIN p.personaxes pp " + // Se une con la tabla intermedia
