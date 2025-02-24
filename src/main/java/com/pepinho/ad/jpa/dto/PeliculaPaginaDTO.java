@@ -7,14 +7,14 @@ public class PeliculaPaginaDTO {
     private String castelan;
     private String orixinal;
     private short anoFin;
-    private String director; // Ocupacion.ocupacion
+   // private String director; // Ocupacion.ocupacion
 
-    public PeliculaPaginaDTO(Long idPelicula, String castelan, String orixinal, short anoFin, String director) {
+    public PeliculaPaginaDTO(Long idPelicula, String castelan, String orixinal, short anoFin/*, String director*/) {
         this.idPelicula = idPelicula;
         this.castelan = castelan;
         this.orixinal = orixinal;
         this.anoFin = anoFin;
-        this.director = director;
+     //   this.director = director;
     }
 
     public Long getIdPelicula() {
@@ -48,14 +48,14 @@ public class PeliculaPaginaDTO {
     public void setAnoFin(short anoFin) {
         this.anoFin = anoFin;
     }
-
+/*
     public String getDirector() {
         return director;
     }
 
     public void setDirector(String director) {
         this.director = director;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -64,7 +64,7 @@ public class PeliculaPaginaDTO {
                 ", castelan='" + castelan + '\'' +
                 ", orixinal='" + orixinal + '\'' +
                 ", anoFin=" + anoFin +
-                ", director='" + director + '\'' +
+               // ", director='" + director + '\'' +
                 '}';
     }
 }
