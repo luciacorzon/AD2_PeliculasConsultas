@@ -1,10 +1,8 @@
 package com.pepinho.ad.jpa.paginacion;
 import com.pepinho.ad.jpa.dao.PeliculaDAO;
 import com.pepinho.ad.jpa.dto.PeliculaPaginaDTO;
-import com.pepinho.ad.jpa.peliculas.Pelicula;
 import jakarta.ejb.Stateful;
 import jakarta.ejb.Remove;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
@@ -34,7 +32,7 @@ public class Paginador {
     // Devolve o número de páxinas que vai haber
     // Se hai 0 resultados porque non hai peliculas, o total de páxinas é 0
     // Se hai menos películas en total que por páxina (por exemplo, solo 5 películas e tamaño de
-    // páxina de 10 pelis por páxina, redondéase hacia arriba con Math.ceil 5pelis/10pelisporpaxina == 1 páxina
+    // páxina de 10 pelis por páxina, redondéase hacia arriba con Math.ceil (5 pelis / 10 pelisporpaxina == 1 páxina)
     // Math.ceil sempre redondea hacia o siguiente enteiro, é decir, hacia arriba, solo necesita convertir un dos
     // números a double
     // Ao dividir entre enteiros ou long trúncase hacia abaixo, polo que se pode dar o caso de estar na "páxina 1 de 0"
@@ -59,6 +57,7 @@ public class Paginador {
     public List<PeliculaPaginaDTO> getResultadosActuales() {
         return peliculaDAO.obtenerPeliculasPorPagina(palabraClave, (int) paginaActual, (int) tamañoPagina);
     }
+    
 
     // Pasar á siguiente páxina
     public void next() {
