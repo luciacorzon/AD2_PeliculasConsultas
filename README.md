@@ -75,3 +75,11 @@ class PeliculaDAO {
     }
 }
 ```
+
+## Notas
+
+- O ejercicio do examen de recu vámolo facer con herdanza, tres tablas, algo sencillo, no examen será parecido (?)
+    - Vanse pedir duas estratexias (unha única tabla, todos os atributos na mesma tabla --> single table e as joined table; table-per-class non o vamos usar)
+    - TypeDiscriminator cae no examen, tal vez
+- É probable que caia algo de paginación
+- Facer un DTO cae fijo
