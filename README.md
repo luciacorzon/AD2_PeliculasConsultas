@@ -83,3 +83,5 @@ class PeliculaDAO {
     - TypeDiscriminator cae no examen, tal vez
 - É probable que caia algo de paginación
 - Facer un DTO cae fijo
+
+- En Spring caen duas formas de executar: con CommandLineRunner e un Componente
